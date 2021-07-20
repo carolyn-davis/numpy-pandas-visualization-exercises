@@ -8,6 +8,7 @@ Created on Fri Jul 16 10:51:27 2021
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 # =============================================================================
 #                            EXERCISES PART 1:
 # =============================================================================
@@ -208,22 +209,109 @@ print(str(min(count, key = count.get)))
 # =============================================================================
 # How many vowels are in the Series?
 # =============================================================================
-letter_series.str.count(r'[aeiou]').sum()
+vowels = letter_series.str.count(r'[aeiou]').sum()
 #Ans: sum is 34
 
 # =============================================================================
 # How many consonants are in the Series?
 # =============================================================================
-letter_series.str.count(r'[aeiou]').sum()
+consonants = len(letter_series) - vowels
+
+#ans: 166
 
 # =============================================================================
 # Create a Series that has all of the same letters but uppercased.
 # =============================================================================
-
-
+new_letter_series = pd.Series([letter.upper() for letter in letter_series], name= 'Big Letters')
 
 # =============================================================================
 # 
 # Create a bar plot of the frequencies of the 6 most commonly occuring letters.
 # =============================================================================
+to_plot = letter_series.value_counts()
 
+to_plot = to_plot.head(6)
+
+to_plot.plot.bar()
+plt.show()
+plt.close()
+
+# =============================================================================
+# 
+# =============================================================================
+numbers = pd.Series(['$796,459.41', '$278.60', '$482,571.67', '$4,503,915.98',
+                     '$2,121,418.3', '$1,260,813.3', '$87,231.01', '$1,509,175.45',
+                     '$4,138,548.00', '$2,848,913.80', '$594,715.39', '$4,789,988.17',
+                     '$4,513,644.5', '$3,191,059.97', '$1,758,712.24', '$4,338,283.54',
+                     '$4,738,303.38', '$2,791,759.67', '$769,681.94', '$452,650.23'])
+
+# =============================================================================
+# What is the data type of the numbers Series?
+# ============================================================================
+for row in numbers:
+    print(type(row))
+#Ans: strings
+
+# =============================================================================
+# 
+# How many elements are in the number Series?
+# =============================================================================
+len(numbers)
+#Ans: 20
+
+# =============================================================================
+# Perform the necessary manipulations by accessing Series attributes and methods 
+# to convert the numbers Series to a numeric data type.
+# =============================================================================
+numbers = [number.replace('$', '') for number in numbers]
+
+numbers = [float(number.replace(',', '')) for number in numbers]
+numbers = pd.Series(numbers)
+
+
+# =============================================================================
+# Run the code to discover the maximum value from the Series.
+# =============================================================================
+max(numbers)
+#Ans: 4789988.17
+
+# =============================================================================
+# Run the code to discover the minimum value from the Series.
+# =============================================================================
+min(numbers)
+#Ans: 278.6
+
+# =============================================================================
+# What is the range of the values in the Series?
+# =============================================================================
+range_num = max(numbers) - min(numbers)
+print(range_num)
+#Ans: 4789709.57
+
+# =============================================================================
+# Bin the data into 4 equally sized intervals or bins and output how many values 
+# fall into each bin.
+# =============================================================================
+bins = range_num.value_counts(bins=4)
+
+
+
+# =============================================================================
+# Plot the binned data in a meaningful way. Be sure to include a title and axis labels.
+# =============================================================================
+bins.plot()
+
+
+
+
+# =============================================================================
+# How many elements are in the exam_scores Series?
+# =============================================================================
+exam_scores = pd.Series([60, 86, 75, 62, 93, 71, 60, 83, 95, 78, 65, 72, 69,
+                         81, 96, 80, 85, 92, 82, 78])
+
+# =============================================================================
+# How many elements are in the exam_scores Series?
+# =============================================================================
+len(exam_scores)
+#ans: 20
