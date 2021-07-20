@@ -140,19 +140,37 @@ max(fruits,key=len)
 # =============================================================================
 # # 5.) Use the .apply method with a lambda function to find the fruit(s) containing the letter "o" two or more times.
 # =============================================================================
-fruits_series.apply(lambda n: 'o' > 1)
+fruits_series.str.apply(lambda n: 'o' > 1)
 # =============================================================================
 # # 6.) Write the code to get only the string values containing the substring "berry".
 # =============================================================================
-#str.contains method
+#fruits_series.str.contains('berry')
+
+fruits_series.str.findall('berry')
+#Ans: 4 results for berry at indexes: 2,13,14,15
 # =============================================================================
 # # 7.) Write the code to get only the string values containing the substring "apple".
 # =============================================================================
-#str.contains
+fruits_series.str.findall('apple')
+#Ans: 3 results for apple at indexes: 3,4,5
 # =============================================================================
 # # 8.) Which string value contains the most vowels?
 # =============================================================================
-#str.count///nlargest
+def max_char_count(string):
+    max_char = ''
+    max_count = 0
+    for char in set(string):
+        count = string.count(char)
+        if count > max_count:
+            max_count = count
+            max_char = char
+    return max_char
+
+# print(max_char_count('apple'))
+
+
+fruits_series.apply(max_char_count(fruits_series))
+
 
 
 # =============================================================================
@@ -197,3 +215,15 @@ letter_series.str.count(r'[aeiou]').sum()
 # How many consonants are in the Series?
 # =============================================================================
 letter_series.str.count(r'[aeiou]').sum()
+
+# =============================================================================
+# Create a Series that has all of the same letters but uppercased.
+# =============================================================================
+
+
+
+# =============================================================================
+# 
+# Create a bar plot of the frequencies of the 6 most commonly occuring letters.
+# =============================================================================
+
