@@ -5,7 +5,30 @@ Created on Mon Jul 19 11:51:22 2021
 
 @author: carolyndavis
 """
+import pandas as pd
+import numpy as np
 
+from env import host, user, password
+
+url = f'mysql+pymysql://{user}:{password}@{host}/employees'
+
+# Once you have successfully run a query:
+
+# a. Intentionally make a typo in the database url. What kind of error message do you see?
+# url = f'mysql+pymysql://{user}:{password}@{host}/employee'
+#Ans: "Access denied for user to database 'employee'
+
+
+# b. Intentionally make an error in your SQL query. What does the error message look like?
+
+pd.read_sql('SELECT * FROM: employees LIMIT 5 OFFSET 50', url)
+#Ans: You have an error in your SQL syntax: Check the manual....
+
+# =============================================================================
+# Read the employees and titles tables into two separate DataFrames
+# =============================================================================
+employees = pd.read_sql('SELECT * FROM employees', url)
+employees.head()
 from pydataset import data
 import numpy as np
 import pandas as pd
