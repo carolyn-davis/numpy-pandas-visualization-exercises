@@ -37,15 +37,15 @@ pd.core.frame.DataFrame
 # =============================================================================
 
 
-grade_book['passing_english'] = grade_book.english >= 70
-
+grade_book['passing_english'] = grade_book.english >= 70 #produces new column "passing english for grades above 70
+grade_book
 
 # =============================================================================
 # 1b.) Sort the english grades by the passing_english column. How are duplicates handled?
 # =============================================================================
 
-grade_book = grade_book.sort_values(by='english', ascending = False)
-
+grade_book = grade_book.sort_values(by='passing_english') #sorts the passing grades in passing_english column
+# df = df.sort_values(by='passing_english')   
 # =============================================================================
 # 
 # 1c)Sort the english grades first by passing_english and then by student name. 
@@ -54,7 +54,7 @@ grade_book = grade_book.sort_values(by='english', ascending = False)
 # be true for the students passing english. (Hint: you can pass a list to the 
 # .sort_values method)
 # =============================================================================
-grade_book.sort_values([('passing_english'), ('name')])
+grade_book.sort_values([('passing_english'), ('name')]) #first sort by passing english than by the column name
 
 # =============================================================================
 # 
@@ -70,7 +70,7 @@ grade_book = grade_book.sort_values([('passing_english'), ('english')], ascendin
 # =============================================================================
 avg_grade = grade_book[['math', 'english', 'reading']]
 
-avg_grade = avg_grade.mean(axis=1)
+avg_grade = avg_grade.mean(axis=1) #calcs mean for each row by setting axis to 1
 
 grade_book["avg_grade"] = avg_grade
 
@@ -126,8 +126,8 @@ mpg = mpg.rename(columns={'hwy': 'highway'})
 # =============================================================================
 # Do any cars have better city mileage than highway mileage?
 # =============================================================================
-mpg['city'] = mpg.city < mpg.highway
-#Ans: none
+mpg['city'] = mpg.city > mpg.highway
+#Ans: none, no cars have beeter city than highway
 # =============================================================================
 # 
 # Create a column named mileage_difference this column should contain the difference 
@@ -182,7 +182,7 @@ mammals = data('Mammals')
 # How many rows and columns are there?
 # =============================================================================
 mammals.shape
-#ans: 107, 4
+#ans: 107 rows, 4 columns
 
 # =============================================================================
 # What are the data types?
