@@ -237,7 +237,7 @@ plt.show()
 plt.close()
 
 # =============================================================================
-# 
+# Use PANDAS to create a Series named numbers from the following list:
 # =============================================================================
 numbers = pd.Series(['$796,459.41', '$278.60', '$482,571.67', '$4,503,915.98',
                      '$2,121,418.3', '$1,260,813.3', '$87,231.01', '$1,509,175.45',
@@ -246,7 +246,7 @@ numbers = pd.Series(['$796,459.41', '$278.60', '$482,571.67', '$4,503,915.98',
                      '$4,738,303.38', '$2,791,759.67', '$769,681.94', '$452,650.23'])
 
 # =============================================================================
-# What is the data type of the numbers Series?
+# 1.)What is the data type of the numbers Series?
 # ============================================================================
 for row in numbers:
     print(type(row))
@@ -254,13 +254,13 @@ for row in numbers:
 
 # =============================================================================
 # 
-# How many elements are in the number Series?
+# 2.)How many elements are in the number Series?
 # =============================================================================
 len(numbers)
 #Ans: 20
 
 # =============================================================================
-# Perform the necessary manipulations by accessing Series attributes and methods 
+# 3.)Perform the necessary manipulations by accessing Series attributes and methods 
 # to convert the numbers Series to a numeric data type.
 # =============================================================================
 numbers = [number.replace('$', '') for number in numbers]
@@ -270,26 +270,26 @@ numbers = pd.Series(numbers)
 
 
 # =============================================================================
-# Run the code to discover the maximum value from the Series.
+# 4.)Run the code to discover the maximum value from the Series.
 # =============================================================================
 max(numbers)
 #Ans: 4789988.17
 
 # =============================================================================
-# Run the code to discover the minimum value from the Series.
+# 5.)Run the code to discover the minimum value from the Series.
 # =============================================================================
 min(numbers)
 #Ans: 278.6
 
 # =============================================================================
-# What is the range of the values in the Series?
+# 6.)What is the range of the values in the Series?
 # =============================================================================
 range_num = max(numbers) - min(numbers)
 print(range_num)
 #Ans: 4789709.57
 
 # =============================================================================
-# Bin the data into 4 equally sized intervals or bins and output how many values 
+# 7.)Bin the data into 4 equally sized intervals or bins and output how many values 
 # fall into each bin.
 # =============================================================================
 bins = range_num.value_counts(bins=4)
@@ -297,21 +297,88 @@ bins = range_num.value_counts(bins=4)
 
 
 # =============================================================================
-# Plot the binned data in a meaningful way. Be sure to include a title and axis labels.
+# 8.)Plot the binned data in a meaningful way. Be sure to include a title and axis labels.
 # =============================================================================
 bins.plot()
 
 
-
+# =============================================================================
+# Use pandas to create a Series named exam_scores from the following list:
+# =============================================================================
 
 # =============================================================================
-# How many elements are in the exam_scores Series?
+
 # =============================================================================
 exam_scores = pd.Series([60, 86, 75, 62, 93, 71, 60, 83, 95, 78, 65, 72, 69,
                          81, 96, 80, 85, 92, 82, 78])
 
 # =============================================================================
-# How many elements are in the exam_scores Series?
+# 1.)How many elements are in the exam_scores Series?
 # =============================================================================
 len(exam_scores)
 #ans: 20
+
+# =============================================================================
+# 2.)Run the code to discover the minimum, the maximum, the mean, and the median scores 
+# for the exam_scores Series.
+# =============================================================================
+scores = exam_scores.describe()
+medians = pd.Series(exam_scores.median(), name="median")
+scores = pd.concat([scores, medians], axis=0)#includes median on the summary describe() gave me
+scores = scores.rename(index={0:'median'}) 
+
+
+# =============================================================================
+# 3.)Plot the Series in a meaningful way and make sure your chart has a title and 
+#     axis labels.
+# =============================================================================
+import matplotlib.pyplot as plt
+
+exam_scores.plot.bar(edgecolor='black')
+plt.title('Exam Scores')
+plt.ylabel('Scores')
+plt.xlabel('Student ID')
+plt.show()
+
+
+# =============================================================================
+# 4.)Write the code necessary to implement a curve for your exam_grades Series and 
+# save this as curved_grades. Add the necessary points to the highest grade to 
+# make it 100, and add the same number of points to every other score in the Series 
+# as well.
+# =============================================================================
+
+curve = 100 - exam_scores.max()
+curved_grades = pd.Series([i + curve for i in exam_scores])
+
+# =============================================================================
+# 
+# 5.)Use a method to convert each of the numeric values in the curved_grades Series 
+#     into a categorical value of letter grades. For example, 86 should be a 'B' and 
+#     95 should be an 'A'. Save this as a Series named letter_grades.
+# =============================================================================
+rubric = {'A': [i for i in range(90, 101)],
+                 'B': [i for i in range(80, 90)],
+                 'C': [i for i in range(70, 80)],
+                 'F': [i for i in range(0, 70)]}
+
+# letter_grades = [key for key, value in rubric.items() if ]
+
+letter_grades = []
+for grade in curved_grades:
+    for key, value in rubric.items():
+        if grade in value:
+            letter_grades.append(key)
+
+letter_grades = pd.Series(letter_grades, name='letter')
+letter_grades = pd.DataFrame(letter_grades)
+
+# =============================================================================
+# 6.)Plot your new categorical letter_grades Series in a meaninful way and include 
+# a title and axis labels.
+# =============================================================================
+groups = letter_grades.value_counts().sort_index().plot.bar(edgecolor='black')
+plt.title('Student Grades By Letter')
+plt.ylabel('Scores')
+plt.xlabel('Letter')
+plt.show()
