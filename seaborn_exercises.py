@@ -99,3 +99,53 @@ plt.show()
 from pydataset import data
 
 insect_sprays = data('InsectSprays')
+
+bp = sns.boxplot(x='spray', y='count', data=insect_sprays)
+
+
+
+
+# =============================================================================
+# 3.)Load the swiss dataset and read it's documentation. The swiss dataset is available
+#  from pydatset rather than seaborn. Create visualizations to answer the following 
+#  questions:
+# =============================================================================
+swiss_df = data('swiss')
+
+
+# =============================================================================
+# Create an attribute named is_catholic that holds a boolean value of whether or not
+#  the province is Catholic. (Choose a cutoff point for what constitutes catholic)
+# =============================================================================
+med = swiss_df['Catholic'].median()
+def_catholic = swiss_df[swiss_df['Catholic']> med]
+
+is_catholic = []
+for value in swiss_df.index:
+    if value in def_catholic.index:
+        is_catholic.append(True)
+    else:
+        is_catholic.append(False)
+        
+is_catholic = pd.Series(is_catholic, name="is_catholic")
+is_catholic.index = swiss_df.index
+swiss_df.loc[:,'is_catholic'] = is_catholic
+
+# =============================================================================
+# Does whether or not a province is Catholic influence fertility?
+# =============================================================================
+fertilit = swiss_df['Catholic'].corr(swiss_df['Fertility'])
+#Ans: Corr of .46//medium correlation 
+
+
+# =============================================================================
+# What measure correlates most strongly with fertility?
+# =============================================================================
+matrix = swiss_df.corr()
+#Ans: education is the strongest indicator with an inverse correlation of -0.66
+
+
+# =============================================================================
+# 4.)Using the chipotle dataset from the previous exercise, create a bar chart that 
+# shows the 4 most popular items and the revenue produced by each.
+# =============================================================================
