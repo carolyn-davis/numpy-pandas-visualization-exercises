@@ -149,3 +149,36 @@ matrix = swiss_df.corr()
 # 4.)Using the chipotle dataset from the previous exercise, create a bar chart that 
 # shows the 4 most popular items and the revenue produced by each.
 # =============================================================================
+
+
+import pandas as pd
+import numpy as np
+
+from env import host, user, password
+
+
+def get_db_url(user, host, password, database, query):
+    
+    url = f'mysql+pymysql://{user}:{password}@{host}/chipotle'
+    
+    return pd.read_sql(query, url)
+
+
+
+# =============================================================================
+# 5.)Load the sleepstudy data and read it's documentation. Use seaborn to create 
+#     a line chart of all the individual subject's reaction times and a more 
+#     prominant line showing the average change in reaction time.
+# =============================================================================
+sleep_study = data("sleepstudy")
+
+sleep_wide = sleep_study.pivot("Subject", "Days", "Reaction")
+
+plot = sns.lineplot(data=sleep_wide.T)
+plot.legend(loc='upper left', bbox_to_anchor=(1, 1))
+
+
+
+
+
+
